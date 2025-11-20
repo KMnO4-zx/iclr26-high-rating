@@ -35,15 +35,15 @@ def get_rating_html(paper):
                 </div>
                 <div class="rating-item">
                     <span class="rating-label">最低分:</span>
-                    <span class="rating-value">{min_rating}</span>
+                    <span class="rating-value {rating_class}">{min_rating}</span>
                 </div>
                 <div class="rating-item">
                     <span class="rating-label">最高分:</span>
-                    <span class="rating-value">{max_rating}</span>
+                    <span class="rating-value {rating_class}">{max_rating}</span>
                 </div>
                 <div class="rating-item">
                     <span class="rating-label">评审人数:</span>
-                    <span class="rating-value">{reviewer_count}</span>
+                    <span class="rating-value {rating_class}">{reviewer_count}</span>
                 </div>
             </div>'''
 
@@ -60,7 +60,7 @@ def create_high_rated_html():
     """创建只包含高评分论文的HTML页面"""
 
     # 读取高评分论文数据
-    with open('./high_rated_papers.json', 'r', encoding='utf-8') as f:
+    with open('./data/high_rated_papers.json', 'r', encoding='utf-8') as f:
         papers_data = json.load(f)
 
     # 按平均评分降序排序
@@ -237,6 +237,7 @@ def create_high_rated_html():
             align-items: center;
             gap: 5px;
             font-size: 0.8rem;
+            color: #000000;
         }}
 
         .rating-label {{
@@ -362,13 +363,6 @@ def create_high_rated_html():
                 </div>
             </div>
         </div>
-
-        <div class="download-section">
-            <h3>📥 相关下载</h3>
-            <a href="high_rated_papers.json" class="download-btn" download>⭐ 高评分论文数据</a>
-            <a href="high_rated_papers_summary.csv" class="download-btn" download>📊 CSV摘要</a>
-            <a href="iclr26_all_papers_with_ratings.json" class="download-btn" download>📄 全部论文数据</a>
-        </div>
 '''
 
     # 添加高评分论文部分（按评分排序）
@@ -410,14 +404,14 @@ def create_high_rated_html():
 </html>'''
 
     # 保存HTML文件
-    with open('high_rated_papers.html', 'w', encoding='utf-8') as f:
+    with open('index.html', 'w', encoding='utf-8') as f:
         f.write(html_content)
 
     print(f"高评分论文HTML页面已创建")
     print(f"页面包含 {len(papers_data)} 篇高评分论文（平均分≥6分且最低分≥5分）")
     print(f"平均分范围: {papers_data[-1]['avg_rating']:.2f} - {papers_data[0]['avg_rating']:.2f}")
 
-    return 'high_rated_papers.html'
+    return 'index.html'
 
 if __name__ == "__main__":
     create_high_rated_html()
